@@ -5,11 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
-func (api *API) request(method string, path string, out interface{}, body interface{}) *http.Response {
+func (api *API) request(method string, path string, out interface{}, body interface{}) error {
 	var req *http.Request
 	var err error
 
@@ -17,17 +16,17 @@ func (api *API) request(method string, path string, out interface{}, body interf
 		var bytesData []byte
 		bytesData, err = json.Marshal(body)
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 
 		req, err = http.NewRequest(method, fmt.Sprintf("%s/%s", api.BaseURL, path), bytes.NewBuffer(bytesData))
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 	} else {
 		req, err = http.NewRequest(method, fmt.Sprintf("%s/%s", api.BaseURL, path), nil)
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 	}
 
@@ -37,23 +36,23 @@ func (api *API) request(method string, path string, out interface{}, body interf
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 
 	respBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 	defer res.Body.Close()
 
 	err = json.Unmarshal(respBody, &out)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 
-	return res
+	return nil
 }
 
-func (api *API) getRequest(partURL string, out interface{}) {
-	api.request("GET", partURL, &out, nil)
+func (api *API) getRequest(partURL string, out interface{}) error {
+	return api.request("GET", partURL, &out, nil)
 }

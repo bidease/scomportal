@@ -25,7 +25,10 @@ type Hosts struct {
 }
 
 // GetHosts ..
-func (api *API) GetHosts() (hosts []*Hosts) {
-	api.getRequest("/hosts", &hosts)
-	return
+func (api *API) GetHosts() (*[]Hosts, error) {
+	var hosts []Hosts
+	if err := api.getRequest("/hosts", &hosts); err != nil {
+		return nil, err
+	}
+	return &hosts, nil
 }
