@@ -32,3 +32,28 @@ func (api *API) GetHosts() (*Hosts, error) {
 	}
 	return &hosts, nil
 }
+
+// Equipment ..
+type Equipment struct {
+	Data struct {
+		Equipment struct {
+			Hosts uint64
+			Racks uint64
+		}
+		IPS struct {
+			Use     uint64
+			Overuse uint64
+		}
+		Licenses uint64
+		Contacts uint64
+	}
+}
+
+// GetEquipment ..
+func (api *API) GetEquipment() (*Equipment, error) {
+	var equipment Equipment
+	if err := api.getRequest("/stats", &equipment); err != nil {
+		return nil, err
+	}
+	return &equipment, nil
+}
