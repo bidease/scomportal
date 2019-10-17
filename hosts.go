@@ -1,7 +1,7 @@
 package scomportal
 
-// Hosts ..
-type Hosts struct {
+// GetBaremetalHosts ..
+type GetBaremetalHosts struct {
 	Data []struct {
 		ID                 uint64
 		Title              string
@@ -24,36 +24,11 @@ type Hosts struct {
 	NumFound uint64 `json:"num_found"`
 }
 
-// GetHosts ..
-func (api *API) GetHosts() (*Hosts, error) {
-	var hosts Hosts
+// GetBaremetalHosts ..
+func (api *API) GetBaremetalHosts() (*GetBaremetalHosts, error) {
+	var hosts GetBaremetalHosts
 	if err := api.getRequest("/hosts", &hosts); err != nil {
 		return nil, err
 	}
 	return &hosts, nil
-}
-
-// Equipment ..
-type Equipment struct {
-	Data struct {
-		Equipment struct {
-			Hosts uint64
-			Racks uint64
-		}
-		IPS struct {
-			Use     uint64
-			Overuse uint64
-		}
-		Licenses uint64
-		Contacts uint64
-	}
-}
-
-// GetEquipment ..
-func (api *API) GetEquipment() (*Equipment, error) {
-	var equipment Equipment
-	if err := api.getRequest("/stats", &equipment); err != nil {
-		return nil, err
-	}
-	return &equipment, nil
 }
