@@ -21,8 +21,8 @@ type BaremetalTraficHost struct {
 	}
 }
 
-// GetBaremetalHostTrafic ..
-func (api *API) GetBaremetalHostTrafic(id uint64) (*BaremetalTraficHost, error) {
+// GetBaremetalHostTraffic ..
+func (api *API) GetBaremetalHostTraffic(id uint64) (*BaremetalTraficHost, error) {
 	var traffic BaremetalTraficHost
 	if err := api.getRequest(fmt.Sprintf("/hosts/%d/traffic_summary", id), &traffic); err != nil {
 		return nil, err
