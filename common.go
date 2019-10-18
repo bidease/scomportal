@@ -19,12 +19,12 @@ func (api *API) request(method string, path string, out interface{}, body interf
 			return err
 		}
 
-		req, err = http.NewRequest(method, fmt.Sprintf("%s/%s", api.BaseURL, path), bytes.NewBuffer(bytesData))
+		req, err = http.NewRequest(method, fmt.Sprintf("%s%s", api.BaseURL, path), bytes.NewBuffer(bytesData))
 		if err != nil {
 			return err
 		}
 	} else {
-		req, err = http.NewRequest(method, fmt.Sprintf("%s/%s", api.BaseURL, path), nil)
+		req, err = http.NewRequest(method, fmt.Sprintf("%s%s", api.BaseURL, path), nil)
 		if err != nil {
 			return err
 		}
