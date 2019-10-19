@@ -2,8 +2,8 @@ package scomportal
 
 import "fmt"
 
-// GetBaremetalHosts ..
-type GetBaremetalHosts struct {
+// BaremetalHosts ..
+type BaremetalHosts struct {
 	Data []struct {
 		ID                 uint64
 		Title              string
@@ -27,8 +27,8 @@ type GetBaremetalHosts struct {
 }
 
 // GetBaremetalHosts ..
-func (api *API) GetBaremetalHosts() (*GetBaremetalHosts, error) {
-	var hosts GetBaremetalHosts
+func (api *API) GetBaremetalHosts() (*BaremetalHosts, error) {
+	var hosts BaremetalHosts
 	if err := api.getRequest("/hosts", &hosts); err != nil {
 		return nil, err
 	}
