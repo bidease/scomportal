@@ -1,5 +1,7 @@
 package scomportal
 
+import "fmt"
+
 // GetBaremetalHosts ..
 type GetBaremetalHosts struct {
 	Data []struct {
@@ -31,4 +33,31 @@ func (api *API) GetBaremetalHosts() (*GetBaremetalHosts, error) {
 		return nil, err
 	}
 	return &hosts, nil
+}
+
+// BaremetalServices ..
+type BaremetalServices struct {
+	Data []struct {
+		ID               uint64
+		Type             uint64
+		ParentID         uint64 `json:"parent_id"`
+		Description      string
+		Label            string
+		Comment          string
+		DateStart        string  `json:"date_start"`
+		DateEnd          string  `json:"date_end"`
+		OriginalCurrency string  `json:"original_currency"`
+		OriginalPrice    float64 `json:"original_price"`
+		Currency         string
+		Price            float64
+	}
+}
+
+// GetServices ..
+func (api API) GetServices(id uint64) (*BaremetalServices, error) {
+	var services BaremetalServices
+	if err := api.getRequest(fmt.Sprintf("/hosts/%d/services", id), &services); err != nil {
+		return nil, err
+	}
+	return &services, nil
 }
